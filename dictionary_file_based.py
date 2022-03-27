@@ -107,7 +107,7 @@ if __name__ == '__main__':
                 list_words = agent.autocomplete(word)
                 line = "Autocomplete for '" + word + "': [ "
                 for item in list_words:
-                    line = line + item.word + ": " + str(item.frequency) + "  "
+                    line = line + item.word + ": " + str(item.frequency) + " "
                 output_file.write(line + ']\n')
 
             else:
@@ -116,6 +116,23 @@ if __name__ == '__main__':
 
         output_file.close()
         command_file.close()
+
+        # Compare exp to actual
+        expFileName = args[3][:-2] + "exp"
+        actualFileName = args[4]
+        with open (expFileName) as test:
+            with open (actualFileName) as actual:
+                testOut = ''.join(test.readlines()).strip()
+                actualOut = ''.join(actual.readlines()).strip()
+                if testOut == actualOut:
+                    print(f"PASSED - {expFileName} and {actualFileName} are identical")
+                else:
+                    print(f"FAILED - {expFileName} and {actualFileName} are different")
+
+        # Print the dictionary
+        # print("The contents of the dictionary are:")
+        # print(agent)
+
     except FileNotFoundError as e:
         print("Command file doesn't exist.")
         usage()
