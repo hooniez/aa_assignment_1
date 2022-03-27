@@ -165,14 +165,14 @@ class ListDictionary(BaseDictionary):
         # Employ binary search
         word = word_frequency.word
         isFound, foundIdx = self.binSearch(word)
-        currDataLength = len(self.data)
+        actualLength = len(self.data)
         if isFound:
             return False
         # If not found, add the word in self.data
         else:
             # Create space to shuffle elements to the right by 1
             self.data.append(None)
-            for i in range(currDataLength - 1, foundIdx - 1, -1):
+            for i in range(actualLength - 1, foundIdx - 1, -1):
                 self.data[i + 1] = self.data[i]
             self.data[foundIdx] = word_frequency
             return True
