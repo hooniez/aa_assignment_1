@@ -202,7 +202,6 @@ class ListDictionary(BaseDictionary):
         @param prefix_word: word to be autocompleted
         @return: a list (could be empty) of (at most) 3 most-frequent words with prefix 'prefix_word'
         """
-
         # As soon as prefix_word matches with any word, scan all the words to its left and right and put them in a new list
         # Iterate them only once to find the 3 most-frequent words
         idx = self.binSearchAC(prefix_word)
