@@ -46,34 +46,39 @@ class TernarySearchTreeDictionary(BaseDictionary):
     #     return False
 
 
-    # def search(self, word: str) -> int:
-    #     """
-    #     search for a word
-    #     @param word: the word to be searched
-    #     @return: frequency > 0 if found and 0 if NOT found
-    #     """
-    #     currNode = self.root
-    #     for letter in word:
-    #         if currNode == None:
-    #             return 0
-    #         currNode = self.search_from_node(currNode, letter)
-    #
-    #     return 0
-    #
-    # def search_from_node(self, node, letter):
-    #     if node == None:
-    #         return None
-    #     else:
-    #         if node.letter == letter:
-    #             return node.middle
-    #         elif node.letter < letter: # If the node's letter is less than the letter searched for e.g. c < f
-    #             return node.right
-    #         else:
-    #             return node.left
+    def search(self, word: str) -> int:
+        """
+        search for a word
+        @param word: the word to be searched
+        @return: frequency > 0 if found and 0 if NOT found
+        """
+        endNode = self.search_from_node(self.root, word, 0)
+        if endNode == None:
+            return 0
+        elif endNode.end_word == False:
+            return 0
+        else:
+            return endNode.frequency
 
 
 
-
+    def search_from_node(self, currNode, word, currIdx):
+        """
+        search for a word recursively
+        @param node, word, currIdx: node to start from, the word to be searched, currIdx to search curLetter at
+        @return: frequency > 0 if found and 0 if NOT found
+        """
+        currLetter = word[currIdx]
+        if currNode.letter == None:
+            return None
+        if currNode.letter < currLetter:
+            return self.search_from_node(currNode.right, word, currIdx)
+        elif currNode.letter > currLetter:
+            return self.search_from_node(currNode.left, word, currIdx)
+        elif currIdx < len(word) - 1:
+            return self.search_from_node(currNode.middle, word, currIdx + 1)
+        else:
+            return currNode
 
 
     def add_word_frequency(self, word_frequency: WordFrequency) -> bool:
@@ -92,38 +97,38 @@ class TernarySearchTreeDictionary(BaseDictionary):
         #     return True
         # else:
         #     return False
-        self.add_word(self.root, word_frequency.word, word_frequency.frequency, 0)
+        self.add_word_from_root(self.root, word_frequency.word, word_frequency.frequency, 0)
 
-
-    def add_word(self, currNode, word, freq, currIdx) -> bool:
+    def add_word_from_root(self, currNode, word, freq, currIdx) -> bool:
         """
-        add a word
-        @param root, word:
-        :return: root
+        add a word recursively
+        @param currNode, word, freq, currIdx: currNode initially self.root; currIdx is used for the base case.
+        :return: True if addition is successful, false if the word being added already exists.
         """
         currLetter = word[currIdx]
         if currIdx == len(word) - 1:
             if currNode.letter == None:
                 currNode.letter = currLetter
-                currNode.freq = freq
+                currNode.frequency = freq
                 currNode.end_word = True
                 return True
+            # If currNode is the same as curLetter
             else:
-                # If currNode is the same as curLetter
                 if currNode.letter > currLetter:
                     if currNode.left == None:
                         currNode.left = Node()
                     currNode = currNode.left
-                    self.add_word(currNode, word, freq, currIdx)
+                    self.add_word_from_root(currNode, word, freq, currIdx)
                 elif currNode.letter < currLetter:
                     if currNode.right == None:
                         currNode.right = Node()
                     currNode = currNode.right
-                    self.add_word(currNode, word, freq, currIdx)
+                    self.add_word_from_root(currNode, word, freq, currIdx)
                 else:
                     if currNode.end_word == True:
                         return False
                     else:
+                        currNode.frequency = freq
                         currNode.end_word = True
                         return True
         else:
@@ -131,22 +136,22 @@ class TernarySearchTreeDictionary(BaseDictionary):
                 currNode.letter = currLetter
                 currNode.middle = Node()
                 currNode = currNode.middle
-                self.add_word(currNode, word, freq, currIdx + 1)
+                self.add_word_from_root(currNode, word, freq, currIdx + 1)
             elif currNode.letter < currLetter:
                 if currNode.right == None:
                     currNode.right = Node()
                 currNode = currNode.right
-                self.add_word(currNode, word, freq, currIdx)
+                self.add_word_from_root(currNode, word, freq, currIdx)
             elif currNode.letter > currLetter:
                 if currNode.left == None:
                     currNode.left = Node()
                 currNode = currNode.left
-                self.add_word(currNode, word, freq, currIdx)
+                self.add_word_from_root(currNode, word, freq, currIdx)
             else:
                 if currNode.middle == None:
                     currNode.middle = Node()
                 currNode = currNode.middle
-                self.add_word(currNode, word, freq, currIdx + 1)
+                self.add_word_from_root(currNode, word, freq, currIdx + 1)
 
 
 
