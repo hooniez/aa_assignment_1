@@ -18,3 +18,12 @@ Found 'apologetic' with frequency 1000
 Found 'fur' with frequency 10
 Found 'fathom' with frequency 40
 Found 'apps' with frequency 60
+Delete 'cute' succeeded
+NOT Found 'cute'
+NOT Found 'book'
+Add 'book' succeeded
+Found 'book' with frequency 10000
+Found 'apple' with frequency 300
+Delete 'apple' succeeded
+NOT Found 'apple'
+Delete 'apple' failed
