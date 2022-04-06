@@ -138,6 +138,25 @@ class TernarySearchTreeDictionary(BaseDictionary):
             endNode.end_word = False
         return True
 
+    def add_ac_words(self, currNode: Node, compoundWord: str, ac_lst: list) -> [WordFrequency]:
+        """
+        Recursively traverse all the children nodes of currNode and create an instance of WordFrequency
+        using compoundWord and the frequency of currNode if its end_word is True.
+        @param currNode, compoundWord, ac_lst: compoundWord to keep track of the word to be added
+        ac_lst: the list to which an instance of WordFrequency is added
+        @return: a list (could be empty) of all the words with prefix 'word'
+        """
+
+        # Base Case 1: currNode is None
+        if currNode == None:
+            return
+        # Recursive case:
+        else:
+            if currNode.end_word == True:
+                ac_lst.append(WordFrequency(compoundWord + currNode.letter, currNode.frequency))
+            self.add_ac_words(currNode.left, compoundWord, ac_lst)
+            self.add_ac_words(currNode.middle, compoundWord + currNode.letter, ac_lst)
+            self.add_ac_words(currNode.right, compoundWord, ac_lst)
 
     def autocomplete(self, word: str) -> [WordFrequency]:
         """
@@ -145,6 +164,22 @@ class TernarySearchTreeDictionary(BaseDictionary):
         @param word: word to be autocompleted
         @return: a list (could be empty) of (at most) 3 most-frequent words with prefix 'word'
         """
-        # TO BE IMPLEMENTED
-        # place holder for return
-        return []
+        # a list of words to be autocompleted
+        ac_lst = []
+
+        # Find the prefix
+        currNode = self.search_from_node(self.root, word, 0)
+
+        # If the prefix does not exist
+        if not currNode:
+            return ac_lst
+        else:
+            # If the currNode's end_word is true
+            if currNode.end_word == True:
+                ac_lst.append(WordFrequency(word, currNode.frequency))
+            self.add_ac_words(currNode.middle, word, ac_lst)
+
+            # Python's built-in Timsort
+            ac_lst.sort(key=lambda wordFrequency: wordFrequency.frequency, reverse=True)
+
+        return ac_lst[:3]
