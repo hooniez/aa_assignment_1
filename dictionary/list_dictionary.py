@@ -1,6 +1,7 @@
 from dictionary.word_frequency import WordFrequency
 from dictionary.base_dictionary import BaseDictionary
-
+import time
+import math
 
 # ------------------------------------------------------------------------
 # This class is required TO BE IMPLEMENTED. List-based dictionary implementation.
@@ -12,6 +13,37 @@ from dictionary.base_dictionary import BaseDictionary
 class ListDictionary(BaseDictionary):
     def __init__(self):
         self.data: list = None;
+
+    def partition(self, data, i, k, by):
+        midpoint = i + (k - i) // 2
+        pivot = getattr(data[midpoint], by)
+
+        done = False
+        l = i
+        h = k
+        while not done:
+            while getattr(data[l], by) < pivot:
+                l = l + 1
+            while pivot < getattr(data[h], by):
+                h = h - 1
+            if l >= h:
+                done = True
+            else:
+                temp = data[l]
+                data[l] = data[h]
+                data[h] = temp
+                l = l + 1
+                h = h - 1
+        return h
+
+    def quicksort(self, data, i, k, by: str):
+        j = 0
+        if i >= k:
+            return
+        j = self.partition(data, i, k, by)
+        self.quicksort(data, i, j, by)
+        self.quicksort(data, j + 1, k, by)
+        return
 
     # merge sort algorithm sourced from Zybooks
     def merge(self, data, i, j, k, by: str):
@@ -74,7 +106,13 @@ class ListDictionary(BaseDictionary):
         """
         self.data = words_frequencies
         # Merge-sort data (The time complexity of nlogn)
-        self.merge_sort(self.data, 0, len(self.data) - 1, "word")
+        start_time = time.time_ns()
+        # self.quicksort(self.data, 0, len(self.data) - 1, "word")
+        self.data.sort(key=lambda x: x.word)
+        end_time = time.time_ns()
+
+        time_elapsed = (end_time - start_time) / math.pow(10, 9)
+        print(f"Time elapsed (secs): {time_elapsed}")
 
     def binSearch(self, word:str) -> (bool, int):
         """
@@ -92,7 +130,10 @@ class ListDictionary(BaseDictionary):
                 low = mid + 1
             else:
                 return (True, mid)
-        return (False, mid)
+        if word >= self.data[mid].word:
+            return (False, mid + 1)
+        else:
+            return (False, mid)
 
     def binSearchAC(self, prefix_word:str) -> int:
         """

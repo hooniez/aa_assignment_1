@@ -107,7 +107,7 @@ if __name__ == '__main__':
                 list_words = agent.autocomplete(word)
                 line = "Autocomplete for '" + word + "': [ "
                 for item in list_words:
-                    line = line + item.word + ": " + str(item.frequency) + " "
+                    line = line + item.word + ": " + str(item.frequency) + "  "
                 output_file.write(line + ']\n')
 
             else:

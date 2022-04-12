@@ -130,13 +130,56 @@ class TernarySearchTreeDictionary(BaseDictionary):
         @return: whether succeeded, e.g. return False when point not found
         """
         # First, search for a word
-        endNode = self.search_from_node(self.root, word, 0)
-        if not endNode or endNode.end_word == False:
+        # endNode = self.search_from_node(self.root, word, 0)
+        # if not endNode or endNode.end_word == False:
+        #     return False
+        # else:
+        #     endNode.frequency = None
+        #     endNode.end_word = False
+        #     if endNode.left == None and endNode.middle == None and endNode.right == None:
+        #         del endNode
+        # return True
+        deleteStatus = [False]
+        self.delete_from_node(self.root, word, 0, deleteStatus)
+        return deleteStatus[0]
+
+    def delete_from_node(self, currNode, word, currIdx, deleteStatus: list[bool]):
+        """
+        delete a word recursively
+        @param prevNode, currNode, word, currIdx
+        @return: False if not found or end_word equals False, True if found and end_word equals True
+        """
+        currLetter = word[currIdx]
+        if currNode == None or currNode.letter == None:
             return False
+        if currNode.letter < currLetter:
+            if self.delete_from_node(currNode.right, word, currIdx, deleteStatus):
+                currNode.right = None
+            else:
+                return False
+        elif currNode.letter > currLetter:
+            if self.delete_from_node(currNode.left, word, currIdx, deleteStatus):
+                currNode.left = None
+            else:
+                return False
+        elif currIdx < len(word) - 1:
+            if self.delete_from_node(currNode.middle, word, currIdx + 1, deleteStatus):
+                currNode.middle = None
+            else:
+                return False
         else:
-            endNode.frequency = None
-            endNode.end_word = False
-        return True
+            if currNode.end_word:
+                deleteStatus[0] = True
+                currNode.frequency = None
+                currNode.end_word = False
+
+        if currNode.end_word == False:
+            if currNode.left == None and currNode.middle == None and currNode.right == None:
+                return True
+            else:
+                return False
+        else:
+            return False
 
     def add_ac_words(self, currNode: Node, compoundWord: str, ac_lst: list) -> [WordFrequency]:
         """
