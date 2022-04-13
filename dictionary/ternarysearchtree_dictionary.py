@@ -146,7 +146,7 @@ class TernarySearchTreeDictionary(BaseDictionary):
     def delete_from_node(self, currNode, word, currIdx, deleteStatus: list[bool]):
         """
         delete a word recursively
-        @param prevNode, currNode, word, currIdx
+        @param prevNode, currNode, word, currIdx, deleteStatus
         @return: False if not found or end_word equals False, True if found and end_word equals True
         """
         currLetter = word[currIdx]
@@ -178,6 +178,7 @@ class TernarySearchTreeDictionary(BaseDictionary):
                 return True
             else:
                 return False
+        # If currNode.end_word is True
         else:
             return False
 

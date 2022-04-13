@@ -105,14 +105,8 @@ class ListDictionary(BaseDictionary):
         @param words_frequencies: list of (word, frequency) to be stored
         """
         self.data = words_frequencies
-        # Merge-sort data (The time complexity of nlogn)
-        start_time = time.time_ns()
         # self.quicksort(self.data, 0, len(self.data) - 1, "word")
         self.data.sort(key=lambda x: x.word)
-        end_time = time.time_ns()
-
-        time_elapsed = (end_time - start_time) / math.pow(10, 9)
-        print(f"Time elapsed (secs): {time_elapsed}")
 
     def binSearch(self, word:str) -> (bool, int):
         """
@@ -252,3 +246,4 @@ class ListDictionary(BaseDictionary):
             lst = self.getAutocompleteList(prefix_word, idx)
             self.merge_sort(lst, 0, len(lst) - 1, "frequency")
             return lst[-3:][::-1]
+
