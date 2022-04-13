@@ -244,6 +244,6 @@ class ListDictionary(BaseDictionary):
             return []
         else:
             lst = self.getAutocompleteList(prefix_word, idx)
-            self.merge_sort(lst, 0, len(lst) - 1, "frequency")
-            return lst[-3:][::-1]
+            lst.sort(key=lambda x: x.frequency, reverse=True)
+            return lst[:3]
 
