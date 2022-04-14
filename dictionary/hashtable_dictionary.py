@@ -63,4 +63,4 @@ class HashTableDictionary(BaseDictionary):
         # Find the keys that start with a given prefix
         autoDic = {key: freq for key, freq in self.data.items() if key.startswith(word)}
         # Use Python's built-in sorting algorithm to sort autoDic by frequency and return the last three elements in descending order.
-        return [WordFrequency(key, freq) for key, freq in sorted(autoDic.items(), key=lambda item: item[1])][-3:][::-1]
+        return [WordFrequency(key, freq) for key, freq in sorted(autoDic.items(), key=lambda item: item[1], reverse=True)][:3]
