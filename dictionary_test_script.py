@@ -26,7 +26,7 @@
 #       NOTE- the script expects the data file to be in the same directory as the script.
 #       E.g. if the script is in the directory path /home/s1234/dictionary_test_script.py and
 #       the data file name is sampleData.txt then the code will search the data file as
-#       /home/s1234/sampleData.txt
+#       /hom/s1234/sampleData.txt
 #   input files: these are the input command files, where each file is a list of commands to execute.
 #       NOTE- the script expects the input files to be in the same directory as the script (just like the data file).
 #       IMPORTANT, the expected output file must be in the same directory
