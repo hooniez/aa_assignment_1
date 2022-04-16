@@ -163,7 +163,7 @@ class ListDictionary(BaseDictionary):
         if left_idx >= 0:
             curr_left_word = self.data[left_idx].word[:len(prefix_word)]
         # Add words to the left of the first word
-        while left_idx >= 0 and curr_left_word == prefix_word:
+        while left_idx > 0 and curr_left_word == prefix_word:
             res.append(self.data[left_idx])
             left_idx -= 1
             curr_left_word = self.data[left_idx].word[:len(prefix_word)]
@@ -171,7 +171,7 @@ class ListDictionary(BaseDictionary):
         if right_idx <= len(self.data) - 1:
             curr_right_word = self.data[right_idx].word[:len(prefix_word)]
         # Add words to the right of the first word
-        while right_idx <= len(self.data) - 1 and curr_right_word == prefix_word:
+        while right_idx < len(self.data) - 1 and curr_right_word == prefix_word:
             res.append(self.data[right_idx])
             right_idx += 1
             curr_right_word = self.data[right_idx].word[:len(prefix_word)]
