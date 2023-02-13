@@ -1,0 +1,5 @@
+# aa_assignment_1
+
+This assignment focuses on implementing a dictionary of words and their frequencies that enables word completion for an auto-completion feature in text editors. The assignment requires the implementation of the dictionary using three different data structures: Python's lists, Python's dictionaries (hash tables), and Ternary Search Trees. The assignment requires the implementation of operations such as adding a word and frequency to the dictionary, searching for a word and returning its frequency, deleting a word from the dictionary, and auto-completing a given string by returning the three most frequent words with the string as a prefix.
+
+The assignment requires an empirical analysis of each implementation in three different scenarios: growing dictionary, shrinking dictionary, and static dictionary. The running times of the Add, Delete, Search, and Auto-completion operations should be evaluated and compared across the different data structures. The report includes a detailed explanation of the datasets used and how they support a robust empirical analysis.
